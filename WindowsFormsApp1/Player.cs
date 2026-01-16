@@ -14,6 +14,7 @@ namespace WindowsFormsApp1
 
         public List<Pawn> Pawns { get; }
 
+        // În Player.cs
         public Player(int id, string name, Color color, int startOffset)
         {
             PlayerId = id;
@@ -23,7 +24,10 @@ namespace WindowsFormsApp1
 
             Pawns = new List<Pawn>();
             for (int i = 0; i < 4; i++)
-                Pawns.Add(new Pawn(i) { Owner = this });
+            {
+                // Trimitem 'i' pentru index și 'color' pentru culoarea pionului
+                Pawns.Add(new Pawn(i, color) { Owner = this });
+            }
         }
 
         public bool HasWon()
