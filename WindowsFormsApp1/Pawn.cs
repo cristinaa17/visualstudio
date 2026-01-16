@@ -1,27 +1,29 @@
 ﻿using System.Drawing;
-using WindowsFormsApp1;
 
-public class Pawn : GamePiece
+namespace WindowsFormsApp1
 {
-    public int Index { get; }
-    public Player Owner { get; set; }
-
-    // Constructorul primește acum și culoarea
-    public Pawn(int index, Color color) : base(color)
+    public class Pawn : GamePiece
     {
-        Index = index;
-    }
+        public int Index { get; }
+        public Player Owner { get; set; }
 
-    public override void Move(int steps)
-    {
-        if (IsInStart || IsInHome) return;
-        Position += steps;
-    }
-
-    public void ExitStart()
-    {
-        if (IsInStart)
+        public Pawn(int index, Color color) : base(color)
         {
+            Index = index;
+        }
+
+        public override void Move(int steps)
+        {
+            if (IsInStart || IsInHome)
+                return;
+
+            Position += steps;
+        }
+
+        public void ExitStart()
+        {
+            if (!IsInStart) return;
+
             IsInStart = false;
             Position = 0;
         }

@@ -113,7 +113,6 @@ namespace WindowsFormsApp1
         {
             var player = players[currentPlayerIndex];
 
-            // pion în casă -> iese DOAR la 6
             if (pawn.IsInStart)
             {
                 if (diceValue != 6)
@@ -122,14 +121,16 @@ namespace WindowsFormsApp1
                     return;
                 }
 
-                pawn.ExitStart(); // pune Position=0 (start-ul lui, prin StartOffset)
+                pawn.ExitStart();
             }
             else
             {
                 pawn.Move(diceValue);
             }
 
-            // (deocamdată nu ai logica completă de finalizare/casă, deci HasWon va fi false)
+            // 🔴 AICI mâncăm pionii
+            board.CheckCapture(pawn);
+
             if (player.HasWon())
             {
                 lblInstructions.Text = $"{player.Name} a câștigat!";

@@ -34,6 +34,14 @@ namespace WindowsFormsApp1
     {0,7} // Mijloc Stânga
 };
 
+        private readonly int[] safePositions = new int[]
+{
+    1,   // Albastru
+    14,  // Verde
+    27,  // Galben
+    40   // Roșu
+};
+ 
         public LudoBoard(List<Player> players, Size boardSize)
         {
             this.players = players;
@@ -318,23 +326,36 @@ namespace WindowsFormsApp1
 
         public void CheckCapture(Pawn movingPawn)
         {
-            int targetGlobalPos = (movingPawn.Owner.StartOffset + movingPawn.Position) % 52;
+            if (movingPawn.Position > 51)
+                return; // nu se mănâncă în drumul final
+
+            int targetGlobalPos =
+                (movingPawn.Owner.StartOffset + movingPawn.Position) % 52;
+
+            // SAFE ZONE?
+            foreach (int safe in safePositions)
+                if (targetGlobalPos == safe)
+                    return;
 
             foreach (var player in players)
             {
-                if (player == movingPawn.Owner) continue; // Nu ne mâncăm singuri
+                if (player == movingPawn.Owner) continue;
 
                 foreach (var p in player.Pawns)
                 {
                     if (p.IsInStart || p.IsInHome) continue;
+                    if (p.Position > 51) continue;
 
-                    int otherGlobalPos = (p.Owner.StartOffset + p.Position) % 52;
+                    int otherGlobalPos =
+                        (p.Owner.StartOffset + p.Position) % 52;
+
                     if (targetGlobalPos == otherGlobalPos)
                     {
-                        p.Reset(); // Trimite inamicul acasă
+                        p.Reset(); // trimite pionul înapoi în casă
                     }
                 }
             }
         }
+
     }
 }
