@@ -15,24 +15,24 @@ namespace WindowsFormsApp1
         private readonly Point[,] startSlots = new Point[4, 4];
         private readonly Point[,] homeSlots = new Point[4, 4];
         private readonly int[,] path = new int[,]
- {
-    // Cadran Stânga-Sus (Albastru)
-    {6,0},{6,1},{6,2},{6,3},{6,4},{6,5},
-    {5,6},{4,6},{3,6},{2,6},{1,6},{0,6},
-    {0,7}, // Mijloc Stânga
-    // Cadran Stânga-Jos (Roșu)
-    {0,8},{1,8},{2,8},{3,8},{4,8},{5,8},
-    {6,9},{6,10},{6,11},{6,12},{6,13},{6,14},
-    {7,14}, // Mijloc Jos
-    // Cadran Dreapta-Jos (Galben)
-    {8,14},{8,13},{8,12},{8,11},{8,10},{8,9},
-    {9,8},{10,8},{11,8},{12,8},{13,8},{14,8},
+{
+    // 1. De la Stânga la Dreapta (Sus) - rândul 6
+    {0,6}, {1,6}, {2,6}, {3,6}, {4,6}, {5,6},
+    {6,5}, {6,4}, {6,3}, {6,2}, {6,1}, {6,0},
+    {7,0}, // Mijloc Sus
+    // 2. De Sus în Jos (Dreapta) - coloana 8
+    {8,0}, {8,1}, {8,2}, {8,3}, {8,4}, {8,5},
+    {9,6}, {10,6}, {11,6}, {12,6}, {13,6}, {14,6},
     {14,7}, // Mijloc Dreapta
-    // Cadran Dreapta-Sus (Verde)
-    {14,6},{13,6},{12,6},{11,6},{10,6},{9,6},
-    {8,5},{8,4},{8,3},{8,2},{8,1},{8,0},
-    {7,0} // Mijloc Sus
- };
+    // 3. De la Dreapta la Stânga (Jos) - rândul 8
+    {14,8}, {13,8}, {12,8}, {11,8}, {10,8}, {9,8},
+    {8,9}, {8,10}, {8,11}, {8,12}, {8,13}, {8,14},
+    {7,14}, // Mijloc Jos
+    // 4. De Jos în Sus (Stânga) - coloana 6
+    {6,14}, {6,13}, {6,12}, {6,11}, {6,10}, {6,9},
+    {5,8}, {4,8}, {3,8}, {2,8}, {1,8}, {0,8},
+    {0,7} // Mijloc Stânga
+};
 
         public LudoBoard(List<Player> players, Size boardSize)
         {

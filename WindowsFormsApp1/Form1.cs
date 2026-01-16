@@ -37,12 +37,13 @@ namespace WindowsFormsApp1
 
             // IMPORTANT: StartOffset-urile le punem DIRECT (nu FindPathIndex în MainForm)
             // (6,8) = 20, (5,6) = 17, (8,5) = 49, (8,6) = 48 în path-ul tău.
+            // Actualizează în MainForm.cs
             players = new List<Player>
 {
-    new Player(0, "Albastru", Color.Blue, 10),   // Acum va ieși la {6, 1}
-    new Player(1, "Verde", Color.Green, 49),   // Acum va ieși la {1, 8}
-    new Player(2, "Galben", Color.Gold,36 ),   // Acum va ieși la {8, 13}
-    new Player(3, "Roșu", Color.Red, 23)       // Acum va ieși la {13, 6}
+    new Player(0, "Albastru", Color.Blue, 1),
+    new Player(1, "Verde", Color.Green, 14),
+    new Player(2, "Galben", Color.Gold, 27),
+    new Player(3, "Roșu", Color.Red, 40)
 };
 
 
