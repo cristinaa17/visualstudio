@@ -253,7 +253,7 @@ namespace WindowsFormsApp1
                     if (pawn.IsInStart)
                         pos = startSlots[p, i];
                     else if (pawn.IsInHome)
-                        pos = homeSlots[p, i];
+                        pos = GetPathPosition(pawn);
                     else
                         pos = GetPathPosition(pawn);
 
@@ -268,7 +268,7 @@ namespace WindowsFormsApp1
             // Verificăm dacă a depășit drumul comun (51 pași max pe alb)
             if (pawn.Position > 51)
             {
-                int stepInHome = pawn.Position - 51;
+                int stepInHome = pawn.Position - 50;
                 return GetHomeLaneCoordinate(pawn.Owner.PlayerId, stepInHome);
             }
 

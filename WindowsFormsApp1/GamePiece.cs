@@ -4,6 +4,8 @@ namespace WindowsFormsApp1
 {
     public abstract class GamePiece
     {
+       
+
         public Color Color { get; protected set; }
 
         // poziție pe traseu (0..51), >51 = home lane

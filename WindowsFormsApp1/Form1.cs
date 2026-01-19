@@ -57,8 +57,7 @@ namespace WindowsFormsApp1
 
         private void btnRollDice_Click(object sender, EventArgs e)
         {
-            if (diceRolled)
-                return;
+            if (diceRolled) return;
 
             diceValue = random.Next(1, 7);
             diceRolled = true;
@@ -66,13 +65,13 @@ namespace WindowsFormsApp1
 
             var player = players[currentPlayerIndex];
 
-            bool hasPawnOutside = player.Pawns.Exists(p => !p.IsInStart && !p.IsInHome);
-
-            if (!hasPawnOutside && diceValue != 6)
+            // VERIFICARE: Poate face vreo mutare?
+            if (!HasAnyValidMove(player, diceValue))
             {
-                lblInstructions.Text = "Niciun pion afară și nu ai dat 6 → tură pierdută";
+                lblInstructions.Text = "Nu ai mutări posibile! Tura trece...";
 
-                Timer t = new Timer { Interval = 900 };
+                // Așteptăm puțin ca jucătorul să vadă mesajul, apoi trecem tura
+                Timer t = new Timer { Interval = 1500 };
                 t.Tick += (s, ev) =>
                 {
                     t.Stop();
@@ -80,12 +79,12 @@ namespace WindowsFormsApp1
                     EndTurn();
                 };
                 t.Start();
-
                 return;
             }
 
+            // Dacă are mutări, jocul continuă normal
             lblInstructions.Text = (diceValue == 6)
-                ? "Ai dat 6! Alege un pion (vei mai arunca o dată)"
+                ? "Ai dat 6! Alege un pion."
                 : "Alege un pion pentru mutare";
         }
 
@@ -125,6 +124,13 @@ namespace WindowsFormsApp1
             }
             else
             {
+                // VERIFICARE: Dacă pionul depășește casa
+                if (pawn.Position + diceValue > 56)
+                {
+                    lblInstructions.Text = "Zar prea mare! Ai nevoie de valoare exactă.";
+                    return; // Nu apelăm FinishMove, îi dăm voie să aleagă alt pion
+                }
+
                 pawn.Move(diceValue);
             }
 
@@ -193,6 +199,29 @@ namespace WindowsFormsApp1
             typeof(Control)
                 .GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance)
                 ?.SetValue(c, true, null);
+        }
+        private bool HasAnyValidMove(Player player, int dice)
+        {
+            foreach (var pawn in player.Pawns)
+            {
+                // 1. Dacă e în casă (a terminat jocul), nu mai poate fi mutat
+                if (pawn.IsInHome) continue;
+
+                // 2. Dacă e în start, poate ieși doar cu 6
+                if (pawn.IsInStart)
+                {
+                    if (dice == 6) return true;
+                    else continue;
+                }
+
+                // 3. Dacă e pe traseu, verificăm să nu depășească fix căsuța 57 (sau 56, depinde de indexare)
+                // În codul tău de Move, limita este 57.
+                if (pawn.Position + dice <= 56)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void MainForm_Load(object sender, EventArgs e) { }
